@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/lovetingyuan/hosit/issues"
   },
+  "bin": {
+    "hosit": "node index"
+  },
   "homepage": "https://github.com/lovetingyuan/hosit#readme"
 }
