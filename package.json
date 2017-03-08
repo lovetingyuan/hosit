@@ -21,7 +21,7 @@
     "url": "https://github.com/lovetingyuan/hosit/issues"
   },
   "bin": {
-    "hosit": "index"
+    "hosit": "bin/hosit"
   },
   "homepage": "https://github.com/lovetingyuan/hosit#readme"
 }
