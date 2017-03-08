@@ -50,7 +50,7 @@ function errorHandler(e) {
   if (e && e.code === 'EACCES') {
     console.log('请使用root权限或管理员权限执行');
   }
-  if(process.env.NODE_ENV !== 'test') {
+  if (process.env.NODE_ENV !== 'test') {
     process.exit(-1);
   }
 }
@@ -67,35 +67,37 @@ function log(info) {
   console.log(' hosit: ' + info)
 }
 
-try {
-  var cachedHostPath = path.resolve(process.cwd(), 'hosts')
-  if (!fs.existsSync(cachedHostPath)) {
-    var originHostContent = fs.readFileSync(getHostPath(), { encoding: 'utf8' })
-    fs.writeFileSync(cachedHostPath, originHostContent)
+module.exports = function hosit() {
+  try {
+    var cachedHostPath = path.resolve(process.cwd(), 'hosts')
+    if (!fs.existsSync(cachedHostPath)) {
+      var originHostContent = fs.readFileSync(getHostPath(), { encoding: 'utf8' })
+      fs.writeFileSync(cachedHostPath, originHostContent)
+    }
+    if (process.argv.length > 3) {
+      printUsage()
+    } else if (process.argv[2] === '-r') {
+      recoverOriginalHost();
+      log('hosts已经恢复')
+    } else if (process.argv[2] === '-c') {
+      recoverOriginalHost(true)
+      log('hosts已经重置')
+    } else if (process.argv[2]) {
+      printUsage()
+    } else {
+      log('请稍候...')
+      var url = 'https://raw.githubusercontent.com/racaljk/hosts/master/hosts'
+      getHostContent(url, function(err, data) {
+        if (err) return errorHandler(e)
+        try {
+          fs.writeFileSync(path.resolve(getHostPath()), data);
+          log('hosts已经更新')
+        } catch (e) {
+          errorHandler(e)
+        }
+      });
+    }
+  } catch (e) {
+    errorHandler(e);
   }
-  if (process.argv.length > 3) {
-    printUsage()
-  } else if (process.argv[2] === '-r') {
-    recoverOriginalHost();
-    log('hosts已经恢复')
-  } else if (process.argv[2] === '-c') {
-    recoverOriginalHost(true)
-    log('hosts已经重置')
-  } else if (process.argv[2]) {
-    printUsage()
-  } else {
-    log('请稍候...')
-    var url = 'https://raw.githubusercontent.com/racaljk/hosts/master/hosts'
-    getHostContent(url, function(err, data) {
-      if (err) return errorHandler(e)
-      try {
-        fs.writeFileSync(path.resolve(getHostPath()), data);
-        log('hosts已经更新')
-      } catch (e) {
-        errorHandler(e)
-      }
-    });
-  }
-} catch (e) {
-  errorHandler(e);
 }
