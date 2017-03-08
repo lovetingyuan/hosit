@@ -5,6 +5,8 @@
 
 更新最新的google hosts文件，基于[racaljk/hosts](https://github.com/racaljk/hosts)，详情请查看[license](https://github.com/racaljk/hosts#license)
 
+支持Linux, Windows及OS X 10.2+
+
 ### install
 `npm install -g hosit`
 
