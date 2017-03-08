@@ -1,0 +1,24 @@
+{
+  "name": "hosit",
+  "version": "1.0.0",
+  "description": "update the latest and available google hosts file",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lovetingyuan/hosit.git"
+  },
+  "keywords": [
+    "google",
+    "hosts",
+    "fq"
+  ],
+  "author": "tingyuan <1932294867@qq.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lovetingyuan/hosit/issues"
+  },
+  "homepage": "https://github.com/lovetingyuan/hosit#readme"
+}
