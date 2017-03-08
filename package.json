@@ -1,6 +1,6 @@
 {
   "name": "hosit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "update the latest and available google hosts file",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "url": "https://github.com/lovetingyuan/hosit/issues"
   },
   "bin": {
-    "hosit": "node index"
+    "hosit": "index"
   },
   "homepage": "https://github.com/lovetingyuan/hosit#readme"
 }
