@@ -1,6 +1,6 @@
 {
   "name": "hosit",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "update the latest and available google hosts file",
   "main": "index.js",
   "scripts": {

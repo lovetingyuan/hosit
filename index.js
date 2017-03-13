@@ -19,9 +19,7 @@ function getHostContent(url, callback) {
     res.setEncoding('utf8');
     var rawData = '';
     res.on('data', function(chunk) { rawData += chunk });
-    res.on('end', function() {
-      callback(null, rawData)
-    });
+    res.on('end', function() { callback(null, rawData) });
   }).on('error', callback);
 }
 
@@ -64,7 +62,8 @@ function printUsage() {
     '  用法: hosit [options] \n\
   options: \n\
     -r    -r表示恢复原有的hosts文件 \n\
-    -c    -c表示清除hosts内容（会保留locahost映射），如果您在使用本命令前未更改过hosts文件则建议使用-r选项代替-c选项\n')
+    -c    -c表示清除hosts内容（会保留locahost映射），如果您在使用本命令前未更改过hosts文件则建议使用-r选项代替-c选项\n\
+  当前hosts文件路径为：' + getHostPath())
 }
 
 function log(info) {
@@ -86,6 +85,8 @@ module.exports = function hosit() {
     } else if (process.argv[2] === '-c') {
       recoverOriginalHost(true)
       log('hosts已经重置')
+    } else if (process.argv[2] === '-v') {
+      log('v' + require('./package.json').version)
     } else if (process.argv[2]) {
       printUsage()
     } else {
@@ -95,7 +96,7 @@ module.exports = function hosit() {
         if (err) return errorHandler(e)
         try {
           fs.writeFileSync(path.resolve(getHostPath()), data);
-          log('hosts已经更新')
+          log('hosts已经更新!')
         } catch (e) {
           errorHandler(e)
         }
