@@ -38,7 +38,11 @@ function getHostPath() {
 }
 
 function recoverOriginalHost(clear) {
-  var defaultContent = ['127.0.0.1 localhost', '::1 localhost'].join(os.EOL)
+  var defaultContent = ({
+  	'Linux': ['127.0.0.1 localhost', '::1 localhost localhost.localdomain'],
+  	'Windows_NT': ['127.0.0.1 localhost', '::1 localhost'],
+  	'Darwin': ['127.0.0.1 localhost', '255.255.255.255 broadcasthost', '::1 localhost']
+  })[os.type()].join(os.EOL)
   var cachedHostPath = path.resolve(process.cwd(), 'hosts')
   var originContent = fs.readFileSync(cachedHostPath, { encoding: 'utf8' })
   var hostPath = getHostPath()
