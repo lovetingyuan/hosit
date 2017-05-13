@@ -46,7 +46,7 @@ function recoverOriginalHost(clear) {
     'Windows_NT': ['127.0.0.1 localhost', '::1 localhost'],
     'Darwin': ['127.0.0.1 localhost', '255.255.255.255 broadcasthost', '::1 localhost']
   })[os.type()].join(os.EOL)
-  var cachedHostPath = path.resolve(process.cwd(), 'hosts')
+  var cachedHostPath = path.resolve(os.homedir(), 'hosts')
   var originContent = fs.readFileSync(cachedHostPath, { encoding: 'utf8' })
   var hostPath = getHostPath()
   fs.writeFileSync(hostPath, clear ? defaultContent : originContent)
@@ -113,7 +113,12 @@ var funcs = {
     log('v' + require('./package.json').version)
   },
   path: function() {
-    log('路径：' + getHostPath())
+    log(getHostPath())
+  },
+  Print: function() {
+    console.log(fs.readFileSync(getHostPath(), {
+      encoding: 'utf8'
+    }))
   },
   help: printUsage
 }
@@ -148,6 +153,7 @@ function printUsage() {
     -a, --add <ip> <domain>    表示添加一项映射 \n\
     -d, --delete <ip|domain>    根据IP或者domain删除某一条记录 \n\
     -p, --path    打印出hosts所在路径 \n\
+    -P, --Print   打印出当前hosts的内容 \n\
     当前hosts文件路径为： ' + getHostPath())
 }
 
@@ -167,7 +173,7 @@ function checkIpDomain(type, value) {
 
 module.exports = function hosit() {
   try {
-    var cachedHostPath = path.resolve(process.cwd(), 'hosts')
+    var cachedHostPath = path.resolve(os.homedir(), 'hosts')
     if (!fs.existsSync(cachedHostPath)) {
       var originHostContent = fs.readFileSync(getHostPath(), { encoding: 'utf8' })
       fs.writeFileSync(cachedHostPath, originHostContent)

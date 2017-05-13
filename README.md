@@ -17,6 +17,7 @@
 * `hosit -a, --add <ip> <domain>` 添加一项记录
 * `hosit -d, --delete <ip|domain>` 删除一项记录
 * `hosit -p, --path` 打印出hosts文件的路径
+* `hosit -P, --Print` 打印出hosts文件的内容
 
 ### license
 MIT
