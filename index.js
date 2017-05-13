@@ -109,7 +109,6 @@ var funcs = {
     bingo ? log('删除记录：' + ipDomain + '成功') : log('记录：' + ipDomain + '不存在')
   },
   version: function() {
-    return log('version')
     log('v' + require('./package.json').version)
   },
   path: function() {
