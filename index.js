@@ -165,7 +165,7 @@ function checkIpDomain(type, value) {
   value = value.trim().toLowerCase()
   var regs = {
     ip: /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$/,
-    domain: /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/
+    domain: /^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/
   }
   if (regs[type] && regs[type].test(value)) return value
 }
