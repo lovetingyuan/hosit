@@ -5,10 +5,9 @@ var readline = require('readline')
 
 var hostPath
 
-function getHostContent(url, callback) {
-  var hostFileUrl = url;
-  var client = require(hostFileUrl.split(':')[0])
-  client.get(hostFileUrl, function(res) {
+function fetch(url, callback) {
+  var client = require(url.split(':')[0])
+  client.get(url, function(res) {
     var statusCode = res.statusCode;
     var error;
     if (statusCode !== 200) {
@@ -24,6 +23,15 @@ function getHostContent(url, callback) {
     res.on('data', function(chunk) { rawData += chunk });
     res.on('end', function() { callback(null, rawData) });
   }).on('error', callback);
+}
+
+function getHostContent(callback) {
+  fetch('https://raw.githubusercontent.com/racaljk/hosts/master/hosts', function(err, data) {
+    if (!err) return callback(null, data)
+    fetch('https://coding.net/u/scaffrey/p/hosts/git/raw/master/hosts', function(err, data) {
+      return err ? callback(err) : callback(null, data)
+    })
+  })
 }
 
 function getHostPath() {
@@ -179,8 +187,7 @@ module.exports = function hosit() {
     }
     if (process.argv.length === 2) {
       log('请稍候...')
-      var url = 'https://raw.githubusercontent.com/racaljk/hosts/master/hosts'
-      getHostContent(url, function(err, data) {
+      getHostContent(function(err, data) {
         if (err) return errorHandler(e)
         try {
           fs.writeFileSync(path.resolve(getHostPath()), data);
