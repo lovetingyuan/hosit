@@ -1,10 +1,14 @@
 {
   "name": "hosit",
-  "version": "1.1.5",
+  "version": "2.0.0",
   "description": "update the latest and available google hosts file",
   "main": "index.js",
   "scripts": {
-    "test": "node index"
+    "test": "node index",
+    "prebuild": "npm run lint",
+    "build": "babel src -d lib",
+    "lint": "eslint ./src --quiet",
+    "lint:fix": "eslint ./src --fix"
   },
   "repository": {
     "type": "git",
@@ -23,5 +27,50 @@
   "bin": {
     "hosit": "./bin/hosit"
   },
-  "homepage": "https://github.com/lovetingyuan/hosit#readme"
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "homepage": "https://github.com/lovetingyuan/hosit#readme",
+  "dependencies": {
+    "is-ip": "^2.0.0",
+    "opn": "^5.1.0",
+    "request": "^2.81.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {}
+      ]
+    ],
+    "plugins": [
+      "transform-constant-string"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "env": {
+      "es6": true,
+      "browser": true,
+      "node": true
+    },
+    "globals": {
+      "CONST": false
+    },
+    "rules": {
+      "no-plusplus": "off",
+      "no-underscore-dangle": "off",
+      "consistent-return": "off",
+      "comma-dangle": "off"
+    }
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-constant-string": "^0.1.0",
+    "babel-preset-env": "^1.6.0",
+    "eslint": "^4.6.1",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-import": "^2.7.0"
+  }
 }
