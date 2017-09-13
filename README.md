@@ -17,9 +17,9 @@
 `npm install -g hosit`
 
 ### usage
-* `hosit` 更新最新的google hosts文件
-* `hosit -r, --reset` 恢复到未使用`hosit`命令前的hosts文件
-* `hosit -c, --clear` 清除hosts文件（会保留`localhost`）
+* `hosit` 更新最新的`google hosts`文件
+* `hosit -r, --reset` 完全清除hosts的内容（会保留`localhost`）
+* `hosit -c, --clear` 去除`google hosts`部分的内容
 * `hosit -a, --add <ip> <domain>` 添加一项记录
 * `hosit -d, --delete <ip|domain>` 删除一项记录
 * `hosit -p, --path` 打印出hosts文件的路径
