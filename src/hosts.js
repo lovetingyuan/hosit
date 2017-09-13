@@ -4,9 +4,9 @@ const os = require('os');
 const isIp = require('is-ip');
 const { getHostPath, getHostContent } = require('./host');
 const {
-  read, write, append
-} = require('./file');
-const { log, errorHandler } = require('./utils');
+  file: { read, write, append },
+  log, errorHandler
+} = require('./utils');
 
 CONST(
   HOSIT_GOOGLE_START,
@@ -20,27 +20,27 @@ function reset() {
     Darwin: ['127.0.0.1 localhost', '255.255.255.255 broadcasthost', '::1 localhost']
   })[os.type()].join(os.EOL);
   write(getHostPath(), defaultContent);
-  log('hosts已经完全清除');
+  log('reset', 'success', 'hosts已经完全清除');
 }
 
 function add() {
   const ip = process.argv[3];
   const domain = process.argv[4];
-  if (!isIp(ip)) return log(`ip: ${ip} 不合法`);
-  if (!domain) return log('必须指定域名');
+  if (!isIp(ip)) return log('add', 'error', `${ip} 不合法`);
+  if (!domain) return log('add', 'error', '必须指定域名');
   if (!/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/.test(domain)) {
-    log(`域名：${domain}可能不合法`);
+    log('add', 'warning', `域名：${domain}可能不合法`);
   }
   append(getHostPath(), `${os.EOL}${ip} ${domain}`);
-  log(`已经添加记录：${ip} ${domain}`);
+  log('add', 'success', `已经添加记录：${ip} ${domain}`);
 }
 
 function remove() {
   const ipOrDomain = process.argv[3];
-  if (!ipOrDomain) return log('必须输入要删除的IP或者域名');
+  if (!ipOrDomain) return log('delete', 'error', '必须输入要删除的IP或者域名');
   const hosts = read(getHostPath()).split(os.EOL);
   write(getHostPath(), hosts.filter(line => line.indexOf(ipOrDomain) === -1).join(os.EOL));
-  log(`已经删除：${ipOrDomain}`);
+  log('delete', 'success', `已经删除：${ipOrDomain}`);
 }
 
 function update(content = os.EOL) {
@@ -55,19 +55,19 @@ function update(content = os.EOL) {
 }
 
 function gg() {
+  log('update', 'info', '请稍候...');
   getHostContent((err, data) => {
     if (err) return errorHandler(err);
     try {
       const ggHosts = data.replace(/\n/g, os.EOL);
       update(`${os.EOL}${ggHosts}${os.EOL}`);
-      log('hosts文件已经更新!');
+      log('update', 'success', 'hosts文件已经更新!');
       process.exit(0);
     } catch (e) {
       errorHandler(e);
     }
   });
 }
-
 
 module.exports = {
   reset,
@@ -77,9 +77,9 @@ module.exports = {
   gg,
   hostPath(get) {
     if (get) return getHostPath();
-    console.log(getHostPath());
+    log('path', 'success', getHostPath());
   },
   hostContent() {
-    console.log(read(getHostPath()));
+    log(read(getHostPath()));
   }
 };

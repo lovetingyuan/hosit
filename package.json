@@ -4,11 +4,10 @@
   "description": "update the latest and available google hosts file",
   "main": "index.js",
   "scripts": {
-    "test": "node index",
+    "test": "echo \"no test\"",
     "prebuild": "npm run lint",
     "build": "babel src -d lib",
-    "lint": "eslint ./src --quiet",
-    "lint:fix": "eslint ./src --fix"
+    "lint": "eslint ./src --fix"
   },
   "repository": {
     "type": "git",
@@ -33,15 +32,19 @@
   ],
   "homepage": "https://github.com/lovetingyuan/hosit#readme",
   "dependencies": {
+    "async": "^2.5.0",
+    "chalk": "^2.1.0",
+    "commander": "^2.11.0",
+    "debug": "^3.0.1",
     "is-ip": "^2.0.0",
+    "lodash": "^4.17.4",
     "opn": "^5.1.0",
     "request": "^2.81.0"
   },
   "babel": {
     "presets": [
       [
-        "env",
-        {}
+        "env"
       ]
     ],
     "plugins": [

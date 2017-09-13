@@ -1,58 +1,58 @@
+process.env.DEBUG = 'hosit:*'; // enable debug
+process.env.DEBUG_COLORS = true;
+
 const {
   reset, update, add, remove, gg, hostPath, hostContent
 } = require('./hosts');
-const { log, errorHandler, printUsage } = require('./utils');
+const { log, errorHandler } = require('./utils');
 const pkg = require('../package.json');
 const opn = require('opn');
+const program = require('commander');
 
-const handlers = {};
 const funcs = {
   reset,
   clear: () => {
     update();
-    log('hosts已经恢复');
+    log('clear', 'success', 'hosts已经恢复');
   },
   add,
   delete: remove,
-  version() {
-    console.log(`v${pkg.version}`);
-  },
+  update: gg,
   path: hostPath,
-  'print|P': hostContent,
-  help: printUsage,
+  print: hostContent,
   edit() {
     opn(hostPath(true));
   }
 };
-Object.keys(funcs).forEach((key) => {
-  const [name, short = name[0]] = key.split('|');
-  handlers[name] = funcs[key];
-  handlers[short] = funcs[key];
-});
 
 module.exports = function hosit() {
+  program
+    .version(pkg.version)
+    .option('-u, --update', '更新google hosts')
+    .option('-r, --reset', '完全清除hosts的内容（会保留localhost）')
+    .option('-c, --clear', '去除google hosts部分的内容')
+    .option('-a, --add <ip> <domain>', '添加一项记录')
+    .option('-d, --delete <ip>', '删除一项记录')
+    .option('-p, --path', '打印出hosts文件的路径')
+    .option('-P, --print', '打印出hosts文件的内容')
+    .option('-e, --edit', '编辑hosts文件')
+    .parse(process.argv);
+  // program.on('--help', () => {
+  //   log('没有options则立即更新google hosts');
+  // });
   if (process.argv.length === 2) {
-    log('请稍候...');
-    gg();
+    funcs.update();
   } else {
-    const arg = process.argv[2];
-    const err = (name) => {
-      log(`未知选项：${name}`);
-      printUsage();
-    };
-    if (arg[0] === '-') {
-      const name = arg[1] === '-' ? arg.substr(2) : arg.substr(1);
-      if (typeof handlers[name] !== 'function') {
-        err(arg);
-      } else {
+    const cmds = Object.keys(funcs);
+    for (let i = 0; i < cmds.length; i++) {
+      if (cmds[i] in program) {
         try {
-          handlers[name]();
+          funcs[cmds[i]]();
         } catch (e) {
           errorHandler(e);
         }
+        return;
       }
-    } else {
-      err(arg);
     }
   }
 };
