@@ -2,7 +2,7 @@
   "name": "hosit",
   "version": "2.2.1",
   "description": "update the latest and available google hosts file",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"no test\"",
     "prebuild": "npm run lint",
