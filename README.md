@@ -6,7 +6,7 @@
 
 >更新最新的google hosts文件，基于[racaljk/hosts](https://github.com/racaljk/hosts)，详情请查看[license](https://github.com/googlehosts/hosts/blob/master/LICENSE)
 
->This work is licensed under a CC BY-NC-SA 4.0 International License. https://creativecommons.org/licenses/by-nc-sa/4.0/
+>This work is licensed under a [CC BY-NC-SA 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/). 
 
 支持Linux, Windows及OS X 10.2+
 
