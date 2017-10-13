@@ -15,6 +15,7 @@
 
 ### usage
 * `hosit` 更新最新的`google hosts`文件
+* `hosit -h` print help info, `hosit -V` print current version(please use the latest version)
 * `hosit -r, --reset` 完全清除hosts的内容（会保留`localhost`，*不建议使用*）
 * `hosit -c, --clear` 去除`google hosts`部分的内容
 * `hosit -a, --add <ip> <domain>` 添加一项记录
