@@ -12,6 +12,7 @@ function getHostContent(callback) {
   async.tryEach(
     _.map([
       'https://raw.githubusercontent.com/googlehosts/hosts/master/hosts-files/hosts',
+      'https://coding.net/u/scaffrey/p/hosts/git/raw/master/hosts-files/hosts'
     ], url => (cb) => {
       request(url, (err, res, data) => cb(err, data));
     }),
